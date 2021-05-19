@@ -1,0 +1,86 @@
+/* Step-013 */
+char webpage[] PROGMEM = R"=====(
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Asia Millenia Development</title>
+    <script>
+        var Socket;
+        function initSocket() {
+            Socket = new WebSocket('ws://' + window.location.hostname + ':81/');
+            Socket.onmessage = function (event) {
+                var sensorEvent = JSON.parse(event.data);
+                switch (sensorEvent.type) {
+                    case 'dht':
+                        document.getElementById("rxTemp").textContent = sensorEvent.temperature;
+                        document.getElementById("rxHumi").textContent = sensorEvent.humidity;
+                        document.getElementById("rxHeatIndex").textContent = sensorEvent.heatIndex;
+                        document.getElementById("rxDewPoint").textContent = sensorEvent.dewPoint;
+                        document.getElementById("rxComfortStatus").textContent = sensorEvent.comfortStatus;
+                        document.getElementById("rxTimeStamp").textContent = sensorEvent.timeStamp;
+                        break;
+                    case 'onoffA':
+                        document.getElementById('btnA').innerHTML = sensorEvent.ledOnOff;
+                        if (sensorEvent.ledOnOff == 'OFF') {
+                            document.getElementById('btnA').style.background = '#FF0000';
+                            document.getElementById('btnA')["boxShadow"] = "0px 0px 0px 4px #FF0000";
+                        }
+                        else {
+                            document.getElementById('btnA').style.background = '#111111';
+                            document.getElementById('btnA')["boxShadow"] = "0px 0px 0px 4px #111111";
+                        }
+                        break;
+                    default:
+                    // code block
+                }
+            }
+        }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+</head>
+<body onload="javascript:initSocket()">
+    <div class="container">
+        <div class="card shadow-lg p-1 mb-5 bg-white rounded" style="margin-top:20px">
+            <div class="card-body m-1">
+                <h2 class="font-weight-light text-center text-info mb-2"><a href="/" target="_blank">Asia Millenia <i style="color:red">Development</i></a></h2>
+                <div class="row mx-auto border bg-light shadow mb-3">
+                    <div class="col-md-4 p-2 d-flex justify-content-center">
+                        <span class="font-weight-light mr-2">Suhu</span>
+                        <span id="rxTemp"></span>
+                        <span>&deg;C</span>
+                    </div>
+                    <div class="col-md-4 p-2 d-flex justify-content-center">
+                        <span class="font-weight-light mr-2">Kelembaban</span>
+                        <span id="rxHumi"></span>
+                        <span>%</span>
+                    </div>
+                    <div class="col-md-4 p-2 d-flex justify-content-center">
+                        <span class="font-weight-light mr-2">Heat Index</span>
+                        <span id="rxHeatIndex"></span>
+                    </div>
+                    <div class="col-md-4 p-2 d-flex justify-content-center">
+                        <span class="font-weight-light mr-2">Dew Point</span>
+                        <span id="rxDewPoint"></span>
+                    </div>                    
+                    <div class="col-md-4 p-2 d-flex justify-content-center">
+                        <span class="font-weight-light mr-2">Comfort Status</span>
+                        <span id="rxComfortStatus"></span>
+                    </div>               
+                    <div class="col-md-4 p-2 d-flex justify-content-center">
+                        <span class="font-weight-light mr-2">Time Stamp</span>
+                        <span id="rxTimeStamp"></span>
+                    </div>     
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+)=====";
+/****************** end of HTML Page *****************/ 
+/* End-013 */
